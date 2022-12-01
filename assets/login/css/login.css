@@ -1,0 +1,423 @@
+*,
+*:after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin:0px;
+    padding:0px;
+}
+html,body {
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background:#3A483A;
+    color: #fff;
+    font-size: 13px;
+    font-weight:400;
+    overflow: hidden;
+}
+h1{
+    text-align: center;
+    font-size:40px;
+    font-weight: 200;
+    margin-bottom: -5px;
+}
+h2{
+    text-align: center;
+    font-size:22px;
+    font-weight: 100;
+    margin-bottom: -1px;
+}
+.login-container{
+    position: absolute;
+    top:0px;left:0px;bottom:0px;right:0px;
+}
+.login-bg{
+    position: absolute;
+    top:0px;left:0px;bottom:0px;
+    width: 100%;
+    background: #3A483A;
+}
+@media (min-width: 640px) {
+.login-fg{
+    position: absolute;
+    top:0px;left:0px;bottom:0px;
+    width: 100%;
+    background: transparrent;
+}
+}
+.login-bg::before{
+    content: "";
+    position: absolute;
+    top:0px;left:0px;bottom:0px;right:0px;
+    box-shadow: inset 0px 0px 100px rgba(0,0,0,0.8);
+}
+.login-bg::after{
+    content: "";
+    position: absolute;
+    top:0px;left:0px;bottom:0px;right:0px;
+    background: rgba(0,0,0,0.1);
+}
+.login-left{
+    position: absolute;
+    top:0px;left:0px;bottom:0px;
+    width: 60%;
+	opacity:0;
+    background: transparrent;
+}
+@media (min-width: 640px) {
+	.login-form-bg{
+		position: absolute;
+		top:0px;right:0px;bottom:0px;
+		width: 40%;
+		max-width: 640px;
+		background:#3A483A;
+		opacity:0.3;
+		padding:50px;
+	}
+}
+.login-form{
+    position: absolute;
+    top:0px;right:0px;bottom:0px;
+    width: 40%;
+    max-width: 640px;
+	background-color: transparent;
+    padding:50px;
+}
+.login-form form{
+}
+.login-form hr{
+	border-right:1px transparent;
+	border-left:1px transparent;
+	margin-bottom:20px;
+	margin-top:5px;
+}
+.control{
+    padding:0 0 10px;
+}
+.inputbox{
+    width: 100%;
+    padding:10px;
+    text-align: center;
+    color:#555;
+    border:none;
+    background: #ddd;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size:14px;
+}
+.inputbox:focus{
+    border:none;
+    outline:none;
+    background: #fff;
+}
+select{
+    width: 100%;
+    padding:10px;
+    text-align: center;
+    color:#333;
+    border:none;
+    background: #fff;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size:14px;
+}
+.button{
+    background: rgba(255,255,255,0.1);
+    color:#fff;
+    padding:12px 15px;
+    border:none;
+    width:100%;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size:16px;
+    margin-bottom: 10px;
+}
+.button.submit{
+    background: #3498db;
+    color:#fff;    
+}
+.login-info{
+    padding-left:50px; 
+}
+.link{
+    margin-top:30px;
+    overflow: hidden;
+}
+.link a{
+    color:#fff;
+    text-decoration: none;
+    text-align: center;
+    width: 25%;
+    float: left;
+    vertical-align: top;
+    font-size:11px;
+    padding:0 15px;
+    text-transform: uppercase;
+    border-right:1px solid rgba(255,255,255,0.2);
+}
+.link a:last-child{
+    border:none;
+}
+.link a .fa{
+    font-size: 50px;
+    display: block;
+    margin-bottom: 15px;
+}
+.link a:hover{
+    color:#fff;
+}
+#logo{
+    position: absolute;
+    bottom:40px;left:0px;right:0px;
+    padding:15px 0px 15px 20px;
+    background: rgba(0,40,10,0.3);
+}
+#logo img{
+	float:left;
+    max-height: 80px;
+    max-width: 80%;
+}
+#stamp{
+	padding:5px 0px;
+	float:left;
+    max-height: 80px;
+	margin-left:10px;
+}
+#notification{
+    text-align: center;
+    padding:15px;
+    margin-bottom: 15px;
+}
+#notification.failed{
+    background: #c0392b;
+    color:#fff;
+}
+#notice{
+    text-align: center;
+    background: rgba(255,255,255,0.1);
+    padding:15px;
+    margin-bottom: 15px;
+}
+.overlay{
+    position: fixed;
+    top:0px;left:0px;bottom:0px;right:0px;
+    background: rgba(0,0,0,0.8);
+    overflow: auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition:all 200ms ease-in-out;
+    z-index: 9999;
+}
+.overlay h2{
+    margin-bottom: 10px;
+}
+.overlay.active{
+    visibility: visible;
+    opacity: 1;
+}
+.overlay .box{
+    background:#3A483A;
+    color:#fff;
+    max-width: 800px;
+    display:block;
+    overflow: hidden;
+    transition:all 200ms ease-in-out;
+    transform:translate3d(0,100px,0) scale(0.5);
+    opacity: 0;
+}
+.overlay.active .box{
+    transform:translate3d(0,0,0) scale(1);
+    opacity: 1
+}
+.overlay .close{
+    position: absolute;
+    top:5px;right:20px;
+    font-size:40px;
+    color:#aaa;
+    font-weight: 200;
+    text-decoration: none;
+}
+.overlay .box-inner{
+    margin:50px;
+}
+.overlay .box-inner-sm{
+    margin:0px;
+	width:800px;
+}
+.overlay .box-inner-sm h2{
+    font-weight: 200;
+    margin:10px 10px;
+}
+.overlay.error .box{
+    animation: shake .6s linear;
+}
+
+.bantul,.sleman,.kp,.gk,.yk{
+    display: none;
+}
+
+.column-left{
+    width: 50%;
+    float: left;
+    padding-right: 10px;
+}
+.column-right{
+    width: 50%;
+    float: right;
+    padding-left: 10px;
+}
+.clearfix{
+    clear: both;
+}
+.overlay .box .form-group{
+    margin-bottom: 10px;
+    width: 100%;
+}
+.overlay .box .inputbox{
+    text-align: left;
+    width: 100%;
+}
+.overlay .box select{
+    background: #ddd;
+}
+.preloader{
+    position: fixed;
+    top:0px;left:0px;bottom:0px;right:0px;
+    z-index: 9999;
+    background:#1c1c1c;
+     display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#fff;
+    transform:translate3d(0,0,0);
+    -webkit-transform:translate3d(0,0,0);
+    transition:all 300ms linear;
+    -webkit-transition:all 300ms linear;
+}
+.preloader.pull{
+    transform:translate3d(100%,0,0);
+    -webkit-transform:translate3d(100%,0,0);
+}
+.preloader .box{
+    text-align: center;
+}
+.preloader h2{
+    font-size: 30px;
+    font-weight: 200;
+}
+.preloader img{
+    margin-top: 0px;
+}
+.preloader .loading{
+    width: 600px;
+    height: 200px;
+    background: url(images/static1.squarespace.com.gif) no-repeat center;
+    background-size: cover;
+}
+.preloader .hr{
+    width: 600px;
+    height: 20px;
+    background: url(images/hr.png) no-repeat center;
+    background-size: cover;
+}
+@media (max-width: 1200px) {
+    .link a{
+        font-size:8px;
+    }
+    .link a .fa{
+        font-size:30px;
+    }
+}
+@media (max-height: 680px) {
+	#logo{
+		display:none!important;
+	}
+}
+@media (max-width: 640px) {
+	.preloader{
+		display:none!important;
+	}
+	#logo{
+		display:none!important;
+	}
+}
+@media (max-width: 640px) {
+    html,body{
+        overflow: auto;
+    }
+    h1{
+        font-size: 30px;
+    }
+    .login-bg{
+        top:0px;left:0px;bottom:0;right:0;
+        width: 100%;
+        background-attachment: fixed;
+    }
+    .login-form{
+        top:auto;left:auto;bottom:auto;right:auto;
+        position: relative;
+        width: 100%;
+        margin:0 auto;
+        background: rgba(0,0,0,0.9);
+    }
+    .login-form form{
+        z-index: 999;
+        position: relative;
+        overflow: hidden;
+    }
+    #logo{
+        position: relative!important;
+        top:auto!important;left:auto!important;bottom:auto!important;right:auto!important;
+        background: none;
+        padding:5px;
+    }
+    #logo img{
+        max-width: 100%;
+		max-height:64px;
+        height: auto;
+    }
+    .inputbox{
+        font-size: 12px;
+    }
+    .button{
+        font-size:12px;
+    }
+    .column-left,.column-right{
+        float: none;
+        padding:0px;
+        width: 100%;
+    }
+    .overlay{
+        overflow: hidden;
+    }
+    .overlay .box{
+        position: fixed;
+        top:0;left:0;bottom:0;right:0;
+        overflow: auto;
+        width: 100%;
+    }
+    .link{
+        margin:30px 0;
+    }
+    .link a{
+        width: 25%;
+        border:none;
+        margin-bottom: 15px;
+    }
+}
