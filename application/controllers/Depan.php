@@ -53,6 +53,6 @@ class Depan extends CI_Controller
 
 	public function getmenu(){
 		// echo json_encode( $this->Api_model->getmenu());
-		echo $this->Api_model->get_menu();
+		echo $this->Api_model->get_menu_new();
 	}
 }

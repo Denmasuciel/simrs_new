@@ -139,9 +139,12 @@
     //         caridisposisi: value
     //     });
     // }
-
+    // $('#tre_menu').tree('collapseAll');
+    collapseAll();
   });
-
+  function collapseAll(){
+			$('#tt').tree('collapseAll');
+		}
   // function reload_table() {
   //   $('#wahariini').dataTable().fnDestroy();
   //   apiwa();
@@ -188,7 +191,7 @@
       }
       var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
       var end = start + parseInt(opts.pageSize);
-      data.rows = state.allRows.slice(start, end);
+      // data.rows = state.allRows.slice(start, end);
       return data;
     }
 
@@ -268,12 +271,14 @@
         </div>
       </div> -->
       <div class="box-body">
-
-      <!-- <table id="dgCustomers" toolbar="#toolbarCustomer" cstyle="width:100%;height:440px" title="Data Pasien" 
+        <div style="margin:10px 0;"></div>
+        <div class="easyui-panel" style="padding:5px">
+          <ul id="tre_menu" class="easyui-tree" data-options="url:'<?php echo site_url('depan/getmenu'); ?>',method:'get',animate:true,lines:true"></ul>
+        </div>
+        <!-- <table id="dgCustomers" toolbar="#toolbarCustomer" cstyle="width:100%;height:440px" title="Data Pasien" 
       rownumbers="true" pagination="true" fitColumns="true" singleSelect="true" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">         
         </table> -->
-        <table id="dgCustomers" class="easyui-datagrid" style="width:96%;height:440px" title="Data Pasien Ranap" rownumbers="true" 
-        pagination="true" fitColumns="true" singleSelect="true" toolbar="#tb2" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">
+        <table id="dgCustomers" class="easyui-datagrid" style="width:96%;height:440px" title="Data Pasien Ranap" rownumbers="true" pagination="true" fitColumns="true" singleSelect="true" toolbar="#tb2" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">
         </table>
         <div></div>
 
@@ -291,7 +296,7 @@
                 }
               })" style="width:50%;"></input>
         </div>
-            </p>
+        </p>
         <div id="tb" style="padding:3px">
           <a href="#" class="easyui-linkbutton new" iconCls="icon-add" plain="true">New</a>
           <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="">Edit</a>
@@ -300,8 +305,7 @@
           <input id="urai" style="line-height:16px;border:1px solid #ccc; width:200px" onkeyup="doSearch()">
         </div>
 
-        <table id="tt" class="easyui-datagrid" style="width:96%;height:440px" title="Data Pasien Ranap" rownumbers="true" 
-        pagination="true" fitColumns="true" singleSelect="true" toolbar="#tb" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">
+        <table id="tt" class="easyui-datagrid" style="width:96%;height:440px" title="Data Pasien Ranap" rownumbers="true" pagination="true" fitColumns="true" singleSelect="true" toolbar="#tb" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">
         </table>
         <div></div>
 
@@ -327,81 +331,87 @@
 
     <p>&nbsp;</p>
     <!-- <div region="center"> -->
-   
+
   </section>
   <div id="dlgCustomer" class="easyui-dialog" style="width: 780px; height: auto; padding: 10px;" modal="true" closed="true" buttons="#dlgCustomerBtn">
-        <form id="fmCustomer" method="post">
-            <div class="col-sm-12 justify-content-sm-center">
-                <div class="row" style="width: 100%">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Customer Name</label>
-                            <input type="text" name="customerName" class="easyui-textbox" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Contact First Name</label>
-                            <input type="text" name="contactFirstName" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Contract Last Name</label>
-                            <input type="text" name="contactLastName" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Phone</label>
-                            <input type="text" name="phone" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="row" style="width: 100%">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">First Address Line</label>
-                            <input type="text" name="addressLine1" multiline="true" class="easyui-textbox" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Second Address Line</label>
-                            <input type="text" name="addressLine2" multiline="true" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">City</label>
-                            <input type="text" name="city" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">State</label>
-                            <input type="text" name="state" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                </div>
-                <div class="row" style="width: 100%">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Postal Code</label>
-                            <input type="text" name="postalCode" class="easyui-textbox" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="">Country</label>
-                            <input type="text" name="country" class="easyui-textbox" style="width: 100%;"></div>
-                    </div>
-                </div>
+    <form id="fmCustomer" method="post">
+      <div class="col-sm-12 justify-content-sm-center">
+        <div class="row" style="width: 100%">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Customer Name</label>
+              <input type="text" name="customerName" class="easyui-textbox" style="width: 100%;">
             </div>
-        </form>
-    </div>
-    <div id="dlgCustomerBtn">
-        <a href="javascript:void(0)" id="btn_save" class="easyui-linkbutton" iconCls="icon-ok-a" onclick="saveCustomer()" style="width:90px">Save</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-del-a" onclick="javascript:$('#dlgCustomer').dialog('close'); $('#fmEmployee').form(clear)
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Contact First Name</label>
+              <input type="text" name="contactFirstName" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Contract Last Name</label>
+              <input type="text" name="contactLastName" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Phone</label>
+              <input type="text" name="phone" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+        </div>
+        <div class="row" style="width: 100%">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">First Address Line</label>
+              <input type="text" name="addressLine1" multiline="true" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Second Address Line</label>
+              <input type="text" name="addressLine2" multiline="true" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">City</label>
+              <input type="text" name="city" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">State</label>
+              <input type="text" name="state" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+        </div>
+        <div class="row" style="width: 100%">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Postal Code</label>
+              <input type="text" name="postalCode" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="">Country</label>
+              <input type="text" name="country" class="easyui-textbox" style="width: 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="dlgCustomerBtn">
+    <a href="javascript:void(0)" id="btn_save" class="easyui-linkbutton" iconCls="icon-ok-a" onclick="saveCustomer()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-del-a" onclick="javascript:$('#dlgCustomer').dialog('close'); $('#fmEmployee').form(clear)
         " style="width:90px">Cancel</a>
-    </div>
+  </div>
 </div>
 <br />
-
 
 
 <!-- <h2>Basic Form</h2>

@@ -15,8 +15,8 @@ class Api_model extends CI_model
     {
         $this->load->database();
         $this->_client = new Client([
-            // 'base_uri' => 'http://192.168.132.75:8080/restfull-api/lab/',
-            'base_uri' => 'http://localhost/simrs_api/',
+             'base_uri' => 'http://192.168.132.75:8080/restfull-api/lab/',
+            // 'base_uri' => 'http://localhost/simrs_api/',
             'auth' => ['lis', 'lis123']
         ]);
     }
@@ -47,7 +47,7 @@ class Api_model extends CI_model
     }
     public function getListRanapEasyui()
     {
-        $response = $this->_client->request('GET', 'trx/ranap');
+        $response = $this->_client->request('GET', 'ranap');
         $result1 = json_decode($response->getBody()->getContents(), true);
         // $result2 = $result1['data'];
         // // $result1 = $response->getBody()->getContents();
@@ -168,59 +168,9 @@ class Api_model extends CI_model
         return $this->db->get()->result_array();
     }
 
-    function get_menu($lvl = '1', $root = '', $role = 'admin')
+   
+    function has_child($role, $lvl, $root_cd)
     {
-        $result = array();
-        $rs = $this->db->query("
-                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
-                     B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
-                     FROM com_role_menu A, com_menu B  
-                     WHERE A.menu_cd=B.menu_cd  
-                     AND B.active_st='1'  
-                     AND A.role_cd='$role' AND menu_level='$lvl'  
-                     ORDER BY B.menu_no
-      ");
-
-        $akhir = array();
-        $result2 = array();
-        foreach ($rs->result_array() as $row) {
-            // $row['children'] = $this->has_child($row['menu_cd']);
-            // $result=array($row);
-            $cek_turunan = $row['menu_cd'];
-            $row['children'] = $this->has_child($role, 2,$cek_turunan);
-            $rs2 = $this->db->query("
-                            SELECT A.menu_cd,B.menu_nm,B.menu_root, 
-                            B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
-                            FROM com_role_menu A, com_menu B  
-                            WHERE A.menu_cd=B.menu_cd  
-                            AND B.active_st='1'  
-                            AND A.role_cd='$role' AND menu_level=2  and menu_root='$cek_turunan'
-                            ORDER BY B.menu_no
-                                ");
-            foreach ($rs2->result_array() as $row2) {
-                // $row['children'] = $row2;
-                $cek_turunan2 = $row2['menu_cd'];
-                $rs3 = $this->db->query("
-                                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
-                                    B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
-                                    FROM com_role_menu A, com_menu B  
-                                    WHERE A.menu_cd=B.menu_cd  
-                                    AND B.active_st='1'  
-                                    AND A.role_cd='$role' AND menu_level=3  and menu_root='$cek_turunan2'
-                                    ORDER BY B.menu_no
-                                        ");
-                foreach ($rs3->result_array() as $row3) {
-                    $row2['children'] = $this->has_child($role, 3,$cek_turunan2);
-                }                
-                array_push($result,$row2);
-            }
-        }
-        echo json_encode($result);
-    }
-
-    function has_child($role, $lvl,$root_cd)
-    {
-        // $rs = $this->db->query("SELECT * FROM role r JOIN menu m ON r.id_menu=m.id JOIN `usergroup` g ON r.id_group=g.id_group WHERE parent=$id order by r.id_menu");
         $rs = $this->db->query("
                 SELECT A.menu_cd,B.menu_nm,B.menu_root, 
                 B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
@@ -235,5 +185,85 @@ class Api_model extends CI_model
             $anak[] = $row;
         }
         return $anak;
+    }
+
+    function get_menu_new($lvl = '1', $root = '', $role = 'admin')
+    {
+        $result = array();
+        $menu_array_all = array();
+        $menu1 = array();
+        $menu2 = array();
+        $menu3 = array();
+        $menu4 = array();
+
+        $rs = $this->db->query("
+                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
+                     B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
+                     FROM com_role_menu A, com_menu B  
+                     WHERE A.menu_cd=B.menu_cd  
+                     AND B.active_st='1'  
+                     AND A.role_cd='$role' AND menu_level='$lvl'  
+                     ORDER BY B.menu_no
+      ");
+
+        foreach ($rs->result_array() as $row) {
+            $menu1['level'] = $row['menu_level'];
+            $menu1['id'] = $row['menu_cd'];
+            $menu1['text'] = $row['menu_nm'];
+            $menucd = $row['menu_cd'];
+            $menu1['children'] = array();
+            $rs2 = $this->db->query("
+                                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
+                                    B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
+                                    FROM com_role_menu A, com_menu B  
+                                    WHERE A.menu_cd=B.menu_cd  
+                                    AND B.active_st='1'  
+                                    AND A.role_cd='$role' AND menu_level=2  and menu_root='$menucd'
+                                    ORDER BY B.menu_no
+                                    ");
+            foreach ($rs2->result_array() as $row) {
+                $menu2['level'] = $row['menu_level'];
+                $menu2['id'] = $row['menu_cd'];
+                $menu2['text'] = $row['menu_nm'];
+                $menucd = $row['menu_cd'];
+                $menu2['children'] = array();
+                $rs2 = $this->db->query("
+                                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
+                                    B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
+                                    FROM com_role_menu A, com_menu B  
+                                    WHERE A.menu_cd=B.menu_cd  
+                                    AND B.active_st='1'  
+                                    AND A.role_cd='$role' AND menu_level=3  and menu_root='$menucd'
+                                    ORDER BY B.menu_no
+                                    ");
+                foreach ($rs2->result_array() as $row) {
+                    $menu3['level'] = $row['menu_level'];
+                    $menu3['id'] = $row['menu_cd'];
+                    $menu3['text'] = $row['menu_nm'];
+                    $menucd = $row['menu_cd'];
+                    $menu3['children'] = array();
+                    $rs3 = $this->db->query("
+                                    SELECT A.menu_cd,B.menu_nm,B.menu_root, 
+                                    B.menu_url,B.menu_image,B.menu_level,B.menu_tp,B.menu_param  
+                                    FROM com_role_menu A, com_menu B  
+                                    WHERE A.menu_cd=B.menu_cd  
+                                    AND B.active_st='1'  
+                                    AND A.role_cd='$role' AND menu_level=4  and menu_root='$menucd'
+                                    ORDER BY B.menu_no
+                                    ");
+                    foreach ($rs3->result_array() as $row) {
+                        $menu4['level'] = $row['menu_level'];
+                        $menu4['id'] = $row['menu_cd'];
+                        $menu4['text'] = $row['menu_nm'];
+                        // $menucd = $row['menu_cd'];
+                        array_push($menu3['children'], $menu4);
+                    }
+                    array_push($menu2['children'], $menu3);
+                }
+                array_push($menu1['children'], $menu2);
+            }
+            array_push($menu_array_all, $menu1);
+        }
+        echo json_encode($menu_array_all, JSON_PRETTY_PRINT);
     }
 }
