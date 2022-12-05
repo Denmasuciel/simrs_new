@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets"); ?>/easyui/themes/gray/easyui.css">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets"); ?>/easyui/themes/icon.css">
 <script type="text/javascript" src="<?php echo base_url("assets"); ?>/easyui/jquery.easyui.min.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url("assets"); ?>/easyui/jquery.min.js"></script> -->
 <!-- <script type="text/javascript" src="<?php echo base_url("assets"); ?>/easyui/datagrid-detailview.js"></script>
 <script type="text/javascript" src="<?php echo base_url("assets"); ?>/easyui/jquery.edatagrid.js"></script> -->
 <script type="text/javascript" src="<?php echo base_url('assets/js/script.js') ?>"></script>
@@ -140,11 +141,11 @@
     //     });
     // }
     // $('#tre_menu').tree('collapseAll');
-    collapseAll();
+    // collapseAll();
   });
-  function collapseAll(){
-			$('#tt').tree('collapseAll');
-		}
+  // function collapseAll(){
+	// 		$('#tt').tree('collapseAll');
+	// 	}
   // function reload_table() {
   //   $('#wahariini').dataTable().fnDestroy();
   //   apiwa();
@@ -191,7 +192,7 @@
       }
       var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
       var end = start + parseInt(opts.pageSize);
-      // data.rows = state.allRows.slice(start, end);
+      data.rows = state.allRows.slice(start, end);
       return data;
     }
 
@@ -255,8 +256,9 @@
     })
   })(jQuery);
 </script>
-<div class="row">
-  <section class="content">
+<!-- <div class="row">
+  <section class="content"> -->
+ 
     <div class="box">
       <!-- <div class="box-header with-border">
         <i class="fa fa-wheelchair"></i>
@@ -271,10 +273,10 @@
         </div>
       </div> -->
       <div class="box-body">
-        <div style="margin:10px 0;"></div>
+        <!-- <div style="margin:10px 0;"></div>
         <div class="easyui-panel" style="padding:5px">
           <ul id="tre_menu" class="easyui-tree" data-options="url:'<?php echo site_url('depan/getmenu'); ?>',method:'get',animate:true,lines:true"></ul>
-        </div>
+        </div> -->
         <!-- <table id="dgCustomers" toolbar="#toolbarCustomer" cstyle="width:100%;height:440px" title="Data Pasien" 
       rownumbers="true" pagination="true" fitColumns="true" singleSelect="true" pageSize="25" pageList="[25,50,75,100,125,150,200]" collapsible="true">         
         </table> -->
@@ -332,7 +334,7 @@
     <p>&nbsp;</p>
     <!-- <div region="center"> -->
 
-  </section>
+  <!-- </section> -->
   <div id="dlgCustomer" class="easyui-dialog" style="width: 780px; height: auto; padding: 10px;" modal="true" closed="true" buttons="#dlgCustomerBtn">
     <form id="fmCustomer" method="post">
       <div class="col-sm-12 justify-content-sm-center">
@@ -410,7 +412,7 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-del-a" onclick="javascript:$('#dlgCustomer').dialog('close'); $('#fmEmployee').form(clear)
         " style="width:90px">Cancel</a>
   </div>
-</div>
+<!-- </div> -->
 <br />
 
 
