@@ -16,7 +16,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="<?php echo base_url("assets"); ?>/login/css/style.css">
 
-    <title>Login #8</title>
+    <title>Login SIMRS</title>
   </head>
   <body>
   

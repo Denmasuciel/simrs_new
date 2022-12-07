@@ -20,19 +20,14 @@ class Depan extends CI_Controller
 	public function index()
 	{
 		// $logged_in = $this->session->userdata('logged_in');
-		$role = $this->session->userdata('rolecd');
-		// if (!$logged_in) {
-		// 	redirect('login');
-		// } else {
-			$mnside=$this->Api_model->get_menu_sidebar($role);
+		// $role = $this->session->userdata('rolecd');
+		// $mnside = $this->Api_model->get_menu_sidebar();
 		$data = array(
 			'title' => 'Halaman Beranda',
 			'contents' => 'depan',
-			'men'=>$mnside
+			// 'men' => $mnside
 		);
 		$this->load->view('template_new', $data);
-		// $this->load->view('login');
-		// }
 	}
 
 
@@ -51,16 +46,18 @@ class Depan extends CI_Controller
 		echo $this->Api_model->getListRanapeasyui();
 	}
 
-	public function getdata(){
-		echo json_encode( $this->Api_model->getCustomers());
+	public function getdata()
+	{
+		echo json_encode($this->Api_model->getCustomers());
 	}
 
-	public function getmenu(){
+	public function getmenu()
+	{
 		// echo json_encode( $this->Api_model->getmenu());
 		echo $this->Api_model->get_menu_json();
 	}
-	public function menusidebar(){
+	public function menusidebar()
+	{
 		echo $this->Api_model->get_menu_sidebar('admin');
 	}
-	
 }

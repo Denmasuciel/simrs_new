@@ -3,7 +3,6 @@
 class App_Model extends CI_Model
 {
 
-
 	function getAllData($table)
 	{
 		return $this->db->get($table);
@@ -230,7 +229,7 @@ class App_Model extends CI_Model
 		if (count($q_cek_login->result()) > 0) {
 			// foreach ($q_cek_login->result() as $qck) {
 			foreach ($q_cek_login->result() as $qad) {
-				$sess_data['logged_in'] = 'mlebu_coy_armod';
+				$sess_data['logged_in'] = 'mlebet_SIMRS_maseh';
 				$sess_data['isLog'] = TRUE;
 				$sess_data['user_id'] = $qad->user_cd;
 				$sess_data['user_nm'] = $qad->user_nm;
@@ -252,7 +251,7 @@ class App_Model extends CI_Model
 
 	function logged_id()
 	{
-		return $this->session->userdata('id_user');
+		return $this->session->userdata('user_id');
 	}
 
 	function rp($angka)
@@ -272,11 +271,10 @@ class App_Model extends CI_Model
 
 
 
-
-	function cari_sekolah()
+	function cari_goldarah()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tb_set where set_group='sekolah' and  set_nm like '%$q%' ");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='BLOOD_TP' and  code_nm like '%$q%' ");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -285,10 +283,21 @@ class App_Model extends CI_Model
 	}
 
 
-	public function cari_kantor()
+	public function cari_hari()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT * from tbl_kantor where nama_kantor like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='DAY_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	
+	public function cari_diet()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='DIET_TP' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -296,22 +305,20 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_kantor_report()
+	public function cari_dietmakanan()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$usl = $this->session->userdata('user_lv');
-		$kan = $this->session->userdata('id_kantor');
-
-		if ($usl == 'lv1' || $usl == 'lv2') {
-			$rs = $this->db->query(
-				"SELECT '' as id_kantor, 'Semua' as nama_kantor 
-			Union select id_kantor,nama_kantor from tbl_kantor where nama_kantor like '%$q%'"
-			);
-		} else {
-			$rs = $this->db->query(
-				"select id_kantor,nama_kantor from tbl_kantor where id_kantor='$kan' and nama_kantor like '%$q%'"
-			);
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='DIETFOOD_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
 		}
+		echo json_encode($rows);
+	}
+	public function cari_dosis()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query(" SELECT com_cd,code_nm from com_code where code_group='DOSIS_TP' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -319,10 +326,10 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_jabatan()
+	public function cari_pendidikan()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT * from tbl_jabatan where nama_jabatan like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='EDUCATION_CD' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -330,21 +337,291 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_bidang()
+	public function cari_extBridging()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT * from tbl_bidang where bidang like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm,code_value from com_code where code_group='EXT_CD' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
 		}
 		echo json_encode($rows);
 	}
-	public function cari_bidang_report()
+	public function cari_hub_keluarga()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query(" SELECT '0' as id_bidang, 'Semua' as bidang
-								UNION SELECT id_bidang,bidang from tbl_bidang where bidang like '%$q%'");
+			$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='FAMILY_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_kelamin()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm,code_value from com_code where code_group='GENDER_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	public function cari_jenis_identitas()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='IDENTITY_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	public function cari_jenis_asuransi()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='INSURANCE_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	public function cari_status_trx_inv()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='INV_TRX_ST' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	public function cari_jenis_trx_inv()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='INV_TRX_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_status_pernikahan()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='MARTIAL_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	public function cari_jenis_rawat()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='MEDICAL_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_status_trx()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='MEDICAL_TRX_ST' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_unit()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='MEDICALUNIT_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	
+	public function cari_jenis_trx_obat()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='MOVE_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_pekerjaan()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='OCCUPATION_CD' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_status_pulang()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='OUT_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_cara_pulang()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='OUTWAY_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_nakes()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='PARAMEDIS_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_cara_bayar()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='PAYMENT_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_suku()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='RACE_CD' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_cara_pulang_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='REF_BPJS_PULANG' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_asesment_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKNASSESMENT' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_kelas_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKN_KELAS_HAK' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_penunjangflag0_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKNPENUNJANG_FLAG_0' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_penunjangflag1_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKNPENUNJANG_FLAG_1' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_prosedur_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKN_PROCEDURE' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_tujuankunjungan_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKN_TUJUANKUNJUNGAN' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_naikkelas_bpjs()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='JKN_KELAS_NAIK' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_jenis_asalrujukan()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='REFF_TP' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -355,7 +632,7 @@ class App_Model extends CI_Model
 	public function cari_agama()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='agama' and  set_nm like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='RELIGION_CD' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -363,33 +640,10 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_jenis_cuti()
+	public function cari_jenis_resep()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm,set_value from tbl_set where set_group='cuti' and  set_nm like '%$q%'");
-		$rows = array();
-		foreach ($rs->result_array() as $row) {
-			$rows[] = $row;
-		}
-		echo json_encode($rows);
-	}
-	public function cari_pegawai()
-	{
-		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$usl = $this->session->userdata('user_lv');
-		$kan = $this->session->userdata('id_kantor');
-
-		if ($usl == 'lv1' || $usl == 'lv2') {
-			$rs = $this->db->query("SELECT a.id_pegawai,a.nip,a.nama,b.nama_kantor,c.bidang from tbl_pegawai a
-								left join tbl_kantor b on a.id_kantor=b.id_kantor
-								left join tbl_bidang c on a.id_bidang=c.id_bidang
-								 where a.aktif_st='1' and ( a.nama like '%$q%' or a.nip like '%$q%')");
-		} else {
-			$rs = $this->db->query("SELECT a.id_pegawai,a.nip,a.nama,b.nama_kantor,c.bidang from tbl_pegawai a
-								left join tbl_kantor b on a.id_kantor=b.id_kantor
-								left join tbl_bidang c on a.id_bidang=c.id_bidang
-								 where a.aktif_st='1' and a.id_kantor='$kan' and ( a.nama like '%$q%' or a.nip like '%$q%')");
-		}
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='RESEP_TP' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -397,51 +651,10 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_jenis_ijin()
+	public function cari_ketegori_diagnosa()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='ijin' and  set_nm like '%$q%'");
-		$rows = array();
-		foreach ($rs->result_array() as $row) {
-			$rows[] = $row;
-		}
-		echo json_encode($rows);
-	}
-	public function cari_status_karyawan()
-	{
-		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='statuspegawai' and  set_nm like '%$q%'");
-		$rows = array();
-		foreach ($rs->result_array() as $row) {
-			$rows[] = $row;
-		}
-		echo json_encode($rows);
-	}
-	public function cari_jenis_ijin_report()
-	{
-		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT '' as set_cd, 'Semua' as set_nm UNION 
-								SELECT set_cd,set_nm from tbl_set where set_group='ijin' and  set_nm like '%$q%'");
-		$rows = array();
-		foreach ($rs->result_array() as $row) {
-			$rows[] = $row;
-		}
-		echo json_encode($rows);
-	}
-	public function cari_jenis_sp()
-	{
-		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='sp' and  set_nm like '%$q%'");
-		$rows = array();
-		foreach ($rs->result_array() as $row) {
-			$rows[] = $row;
-		}
-		echo json_encode($rows);
-	}
-	public function cari_jenis_asset()
-	{
-		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='asset' and  set_nm like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='RM_TP' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -449,10 +662,10 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	public function cari_leveluser()
+	public function cari_jenis_sdm()
 	{
 		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
-		$rs = $this->db->query("SELECT set_cd,set_nm from tbl_set where set_group='level' and set_cd <> 'lv1' and  set_nm like '%$q%'");
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='SDM_JENIS' and code_nm like '%$q%'");
 		$rows = array();
 		foreach ($rs->result_array() as $row) {
 			$rows[] = $row;
@@ -460,16 +673,52 @@ class App_Model extends CI_Model
 		echo json_encode($rows);
 	}
 
-	function cek_idp($idp)
+	public function cari_kategori_sdm()
 	{
-		// return $this->db->query("select id_pegawai from tbl_pegawai where id_pegawai='$idp'")->row()->id_pegawai;
-		$cek = $this->db->query("select id_pegawai from tbl_pegawai where id_pegawai='$idp'")->num_rows();
-		if ($cek == 0) {
-			return 'Kosong';
-		} else {
-			return 'Ada';
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='SDM_KATEGORI' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
 		}
+		echo json_encode($rows);
 	}
+
+	public function cari_jenis_tarif()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='TARIF_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+	public function cari_kategori_tindakan()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='TREATMENT_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+	
+	public function cari_jenis_kunjungan()
+	{
+		$q = isset($_POST['q']) ? strval($_POST['q']) : '';
+		$rs = $this->db->query("SELECT com_cd,code_nm from com_code where code_group='VISIT_TP' and code_nm like '%$q%'");
+		$rows = array();
+		foreach ($rs->result_array() as $row) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
+
+
 }
 
 /* End of file app_model.php */

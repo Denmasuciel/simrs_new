@@ -26,7 +26,7 @@ class Menuku
         return $this->db->get_where('com_menu', array('menu_root' => $cd));
     }
 
-    function get_menu_sidebar()
+    public function get_menu_sidebar()
     {
         $role = $this->session->userdata('rolecd');
         $str = "";

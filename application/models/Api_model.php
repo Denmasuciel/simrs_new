@@ -286,8 +286,9 @@ class Api_model extends CI_model
         return $this->db->get_where('com_menu', array('menu_root' => $cd));
     }
 
-    function get_menu_sidebar($role)
+    function get_menu_sidebar()
     {
+        $role = $this->session->userdata('rolecd');
         $str = "";
         $menu_1 = $this->ambildatamenu('1', '', $role)->result();
         foreach ($menu_1 as $level_1) {
